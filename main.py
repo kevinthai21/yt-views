@@ -7,6 +7,7 @@
 from datetime import date, datetime
 
 import os
+import json
 from dotenv import load_dotenv
 from youtube import YouTube
 
@@ -44,8 +45,23 @@ def main():
 
     request_read = youtube.videos().list(
         part = "statistics",
-        id = video.id
+        id = video.id,
+        
     )
+    #TODO: Get the view count.
+
+    response = request_read.execute()
+    # y = json.dumps(response)
+    # print(y)
+    # print(response)
+    # print("\n")
+    # print(response['items'])
+    # # print(y.items)
+    # print("\n")
+    # print(response['items'][0]['statistics'])
+    # #print(str(response.items(0)))
+    # #print("\n")
+    video.setViews(int(response['items'][0]['statistics']['viewCount']))
 
     request_update = youtube.videos().update(
         part="snippet, contentDetails",
@@ -58,21 +74,14 @@ def main():
                 "title": updateTitle()
             }
         }
-    )
-
-    #TODO: Get the view count.
-
-    response = request_read.execute()
-    # print(response.items)
-    # print(response.items[0])
-    # print("Response: " , response.items[0].statistics.viewCount)
+    )    
 
     response = request_update.execute()
 
     # updateVideo()
 
 def updateTitle():
-    new_title = "[TEST] "+"This video has " + str(video.getViews()) + " views!"
+    new_title = "[TEST] "+" This video has " + str(video.getViews()) + " views!"
     video.setTitle(new_title)
     return(video.title)
 
