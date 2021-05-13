@@ -37,7 +37,7 @@ def main():
 
     api_service = 'youtube'
     api_version = 'v3'
-    client_secrets_file = "client_secret_514071497858-gg76s3kneij8de17lon4sfbvc0amnlhp.apps.googleusercontent.com.json"
+    client_secrets_file = client
 
     # Getting credentials and create API client
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
@@ -90,7 +90,7 @@ def updateDesciption():
 
     des_ref = 'This is a personal project of mine that is inspired by Tom Scott!\n'
     des_ref_link = 'You can check out his video on this here: https://www.youtube.com/watch?v=BxV14h0kFs0\n'
-    des_time = 'Last updated at ' + time_string
+    des_time = 'Last updated at ' + time_string + " PT"
     new_description = des_ref + "\n" + des_ref_link + "\n" + des_time
 
     video.setDescription(new_description)
