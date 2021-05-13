@@ -7,7 +7,6 @@
 from datetime import date, datetime
 
 import os
-import json
 from dotenv import load_dotenv
 from youtube import YouTube
 
@@ -28,7 +27,12 @@ scopes = ["https://www.googleapis.com/auth/youtubepartner",
             "https://www.googleapis.com/auth/youtube",
             "https://www.googleapis.com/auth/youtube.force-ssl"]
 
+# YouTube object that will hold details of the video
 video = YouTube(idVideo)
+
+# Function: main()
+# The function that will create an API client and use the logic to update the 
+# title and description.
 def main():
 
     api_service = 'youtube'
@@ -42,27 +46,17 @@ def main():
     youtube = googleapiclient.discovery.build(
         api_service, api_version, credentials=credentials)
 
-
+    # Create a function that will read the details of the video
     request_read = youtube.videos().list(
         part = "statistics",
         id = video.id,
         
     )
-    #TODO: Get the view count.
 
     response = request_read.execute()
-    # y = json.dumps(response)
-    # print(y)
-    # print(response)
-    # print("\n")
-    # print(response['items'])
-    # # print(y.items)
-    # print("\n")
-    # print(response['items'][0]['statistics'])
-    # #print(str(response.items(0)))
-    # #print("\n")
     video.setViews(int(response['items'][0]['statistics']['viewCount']))
 
+    # Create a function that will update the details of the video
     request_update = youtube.videos().update(
         part="snippet, contentDetails",
         body={
@@ -78,14 +72,19 @@ def main():
 
     response = request_update.execute()
 
-    # updateVideo()
-
+# Function: updateTitle()
+# It will update the title of the video with the number of views!
 def updateTitle():
     new_title = "[TEST] "+" This video has " + str(video.getViews()) + " views!"
     video.setTitle(new_title)
     return(video.title)
 
+# Function: updateDescription()
+# It will update the description of the video, with a revised draft; and showing
+# the last time it has been updated.
 def updateDesciption():
+
+    # Gets the current time
     time = datetime.now()
     time_string = time.strftime('%m/%d/%Y %H:%M:%S')
 
@@ -96,9 +95,5 @@ def updateDesciption():
 
     video.setDescription(new_description)
     return(video.description)
-
-def updateVideo():
-    updateTitle()
-    updateDesciption()
 
 main()
