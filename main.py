@@ -72,7 +72,7 @@ def main():
     # updateVideo()
 
 def updateTitle():
-    new_title = "This video has " + str(video.getViews()) + " views!"
+    new_title = "[TEST] "+"This video has " + str(video.getViews()) + " views!"
     video.setTitle(new_title)
     return(video.title)
 
