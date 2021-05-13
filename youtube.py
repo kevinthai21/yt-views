@@ -5,28 +5,33 @@
 # This file will hold the information of a YouTube video.
 
 class YouTube:
-    def __init__(self):
+    def __init__(self, id):
         self.title = ""
         self.views = 0
-        self.thumbnail
-        self.id = ""
+        self.thumbnail = ""
+        self.id = id
+        self.description = ""
     
     # setter methods
     def setTitle(self, title):
         self.title = title
-        print("Title set successfully to ", self.title)
+        print("<Title set successfully!> ", self.title)
 
     def setViews(self, views):
         self.views = views
-        print("Views set successfully to ", self.views)
+        print("<Views set successfully!> ", self.views)
 
     def setThumbnail(self, thumbnail):
         self.thumbnail = thumbnail
-        print("Thumbnail set successfully to ", self.thumbnail)
+        print("<Thumbnail set successfully!> ", self.thumbnail)
 
     def setID(self, id):
         self.id = id
-        print("ID set successfully to ", self.id)
+        print("<ID set successfully!> ", self.id)
+    
+    def setDescription(self, description):
+        self.description = description
+        print("<Description set successfully!> ", self.description)
 
     # getter methods
     def getTitle(self):
@@ -41,3 +46,5 @@ class YouTube:
     def getID(self):
         return self.id
     
+    def getDescription(self):
+        return self.description
