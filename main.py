@@ -72,6 +72,11 @@ def main():
 
     response = request_update.execute()
 
+# Function: createThumbnail()
+# It will create a image for the video.
+def createThumbnail():
+    return
+
 # Function: updateTitle()
 # It will update the title of the video with the number of views!
 def updateTitle():
@@ -95,5 +100,11 @@ def updateDesciption():
 
     video.setDescription(new_description)
     return(video.description)
+
+# Function: updateThumbnail()
+# It will updaate the thumbnail of the video.
+def updateThumbnail(picture):
+    video.setThumbnail(picture)
+    return
 
 main()
