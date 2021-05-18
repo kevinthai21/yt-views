@@ -9,6 +9,7 @@ from datetime import date, datetime
 import os
 from dotenv import load_dotenv
 from youtube import YouTube
+from googleapiclient.http import MediaFileUpload
 
 import google_auth_oauthlib.flow
 import googleapiclient.discovery
@@ -20,8 +21,11 @@ load_dotenv('#.env')
 key = os.getenv('KEY')
 idVideo = os.getenv('ID_VIDEO')
 idChannel = os.getenv('ID_CHANNEL')
-client = os.getenv('CLIENT')
+client = os.getenv('PAST_CLIENT')
 category = os.getenv('CATEGORY')
+refresh = os.getenv('REFRESH')
+access = os.getenv('ACCESS')
+
 
 scopes = ["https://www.googleapis.com/auth/youtubepartner",
             "https://www.googleapis.com/auth/youtube",
@@ -29,6 +33,8 @@ scopes = ["https://www.googleapis.com/auth/youtubepartner",
 
 # YouTube object that will hold details of the video
 video = YouTube(idVideo)
+
+thumbnail_path = "thumbnail_base.png"
 
 # Function: main()
 # The function that will create an API client and use the logic to update the 
@@ -42,9 +48,9 @@ def main():
     # Getting credentials and create API client
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
         client_secrets_file, scopes)
-    credentials = flow.run_console()
+    credential = flow.run_console()
     youtube = googleapiclient.discovery.build(
-        api_service, api_version, credentials=credentials)
+        api_service, api_version, credentials=credential)
 
     # Create a function that will read the details of the video
     request_read = youtube.videos().list(
@@ -68,9 +74,16 @@ def main():
                 "title": updateTitle()
             }
         }
-    )    
-
+    )
     response = request_update.execute()
+
+    # Create a function that will update the thumbnail of the video.
+    request_thumbnail = youtube.thumbnails().set (
+        videoId = video.id,
+        # access_token = access,
+        media_body = MediaFileUpload(thumbnail_path)
+    )
+    response = request_thumbnail.execute()
 
 # Function: createThumbnail()
 # It will create a image for the video.
