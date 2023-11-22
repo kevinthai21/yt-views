@@ -15,7 +15,7 @@ import google_auth_oauthlib.flow
 import googleapiclient.discovery
 import googleapiclient.errors
 
-load_dotenv('#.env')
+load_dotenv('.env')
 
 # Getting environment variables
 key = os.getenv('KEY')
@@ -23,8 +23,6 @@ idVideo = os.getenv('ID_VIDEO')
 idChannel = os.getenv('ID_CHANNEL')
 client = os.getenv('PAST_CLIENT')
 category = os.getenv('CATEGORY')
-refresh = os.getenv('REFRESH')
-access = os.getenv('ACCESS')
 
 
 scopes = ["https://www.googleapis.com/auth/youtubepartner",
@@ -48,7 +46,7 @@ def main():
     # Getting credentials and create API client
     flow = google_auth_oauthlib.flow.InstalledAppFlow.from_client_secrets_file(
         client_secrets_file, scopes)
-    credential = flow.run_console()
+    credential = flow.run_local_server()
     youtube = googleapiclient.discovery.build(
         api_service, api_version, credentials=credential)
 
