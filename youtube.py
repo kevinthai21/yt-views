@@ -5,12 +5,6 @@
 # This file will hold the information of a YouTube video.
 
 class YouTube:
-    def __init__ (self):
-        self.title = ""
-        self.views = 0
-        self.thumbnail = None
-        self.id = None
-        self.description = ""
 
     def __init__(self, id):
         self.title = ""
